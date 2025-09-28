@@ -37,12 +37,15 @@ async def _list_dialogs(bot: BOT, message: Message, chat_type: str):
 
     await message.reply_document(filename, caption=f"📜 Found {count} {chat_type.lower()}s.")
 
+
 @bot.add_cmd(cmd="listchannels")
 async def list_channels(bot: BOT, message: Message):
     await message.reply("🔍 Fetching channels... please wait.")
     await _list_dialogs(bot, message, chat_type="CHANNEL")
 
+
 @bot.add_cmd(cmd="listgroups")
 async def list_groups(bot: BOT, message: Message):
     await message.reply("🔍 Fetching groups... please wait.")
     await _list_dialogs(bot, message, chat_type="SUPERGROUP")
+
