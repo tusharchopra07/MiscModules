@@ -72,7 +72,7 @@ async def leave_chat(bot: BOT, message: Message) -> None:
     # Only show countdown if leaving is allowed
     if not message.input:
         await message.reply(
-            text=f"Leaving current chat in 5 seconds...\nReply with `{message.trigger}c` to cancel.",
+            text=f"Leaving current chat in test seconds...\nReply with `{message.trigger}c` to cancel.",
             del_in=5,
             block=True,
         )
