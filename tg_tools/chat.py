@@ -51,17 +51,13 @@ async def leave_chat(bot: BOT, message: Message) -> None:
         chat = message.input
     else:
         chat = message.chat.id
-        await message.reply(
-            text=f"Leaving current chat in 5 seconds...\nReply with `{message.trigger}c` to cancel.",
-            del_in=5,
-            block=True,
-        )
 
     try:
-        me = await bot.get_chat_member(chat, "me")
+        me = await bot.get_me()
+        member = await bot.get_chat_member(chat, me.id)
 
-        # 🚫 BLOCK if you are admin or owner in ANY chat type
-        if me.status in (
+        # 🚫 BLOCK first – before countdown
+        if member.status in (
             ChatMemberStatus.ADMINISTRATOR,
             ChatMemberStatus.OWNER,
         ):
@@ -73,6 +69,14 @@ async def leave_chat(bot: BOT, message: Message) -> None:
     except Exception:
         pass
 
+    # Only show countdown if leaving is allowed
+    if not message.input:
+        await message.reply(
+            text=f"Leaving current chat in 5 seconds...\nReply with `{message.trigger}c` to cancel.",
+            del_in=5,
+            block=True,
+        )
+
     try:
         await bot.leave_chat(chat)
         await message.reply("✅ Left chat.")
@@ -83,3 +87,4 @@ async def leave_chat(bot: BOT, message: Message) -> None:
             await message.reply(str(e))
 
     message.stop_propagation()
+
