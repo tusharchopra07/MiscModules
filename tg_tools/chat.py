@@ -6,8 +6,12 @@ from pyrogram.errors import BadRequest, UserNotParticipant
 from ub_core.utils import get_name
 from app import BOT, Message
 
+async def init_task():
+    BOT.add_cmd(cmd="leave")(leave_chat)
+    BOT.add_cmd(cmd="join")(join_chat)
+    BOT.add_cmd(cmd="ids")(get_ids)
 
-@BOT.add_cmd(cmd="ids")
+
 async def get_ids(bot: BOT, message: Message) -> None:
     reply: Message = message.replied
     if reply:
@@ -85,9 +89,4 @@ async def leave_chat(bot: BOT, message: Message) -> None:
             await message.reply(str(e))
 
     message.stop_propagation()
-
-    
-    BOT.add_cmd(cmd="leave")(leave_chat)
-    BOT.add_cmd(cmd="join")(join_chat)
-    BOT.add_cmd(cmd="ids")(get_ids)
 
