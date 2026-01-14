@@ -30,7 +30,6 @@ async def get_ids(bot: BOT, message: Message) -> None:
     await message.reply(resp_str)
 
 
-@BOT.add_cmd(cmd="join")
 async def join_chat(bot: BOT, message: Message) -> None:
     chat: str = message.input
     try:
@@ -45,7 +44,6 @@ async def join_chat(bot: BOT, message: Message) -> None:
     await message.reply("Joined")
 
 
-@BOT.add_cmd(cmd="leave")
 async def leave_chat(bot: BOT, message: Message) -> None:
     if message.input:
         chat = message.input
@@ -87,4 +85,9 @@ async def leave_chat(bot: BOT, message: Message) -> None:
             await message.reply(str(e))
 
     message.stop_propagation()
+
+    
+    BOT.add_cmd(cmd="leave")(leave_chat)
+    BOT.add_cmd(cmd="join")(join_chat)
+    BOT.add_cmd(cmd="ids")(get_ids)
 
